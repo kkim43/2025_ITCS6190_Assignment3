@@ -56,30 +56,45 @@ These roles make sure that Lambda can access S3, Glue can crawl the processed da
 
 ## 3. Create the Lambda Function ⚙️
 
-This function will automatically process files uploaded to the `raw/` S3 folder.
+**Approach:**  
+I created a Lambda function that automatically processes new files uploaded to the `raw/` folder in S3.  
+This function reads the raw CSV file, filters it, and saves the cleaned version to the `processed/` folder.
 
-1.  Navigate to the **Lambda** service in the AWS Console.
-2.  Click **Create function**.
-3.  Select **Author from scratch**.
-4.  **Function name**: `FilterAndProcessOrders`
-5.  **Runtime**: Select **Python 3.9** (or a newer version).
-6.  **Permissions**: Expand *Change default execution role*, select **Use an existing role**, and choose the **Lambda Execution Role** you created.
-7.  Click **Create function**.
-8.  In the **Code source** editor, replace the default code with LambdaFunction.py code for processing the raw data.
+**Explanation:**  
+- **Function name:** `FilterAndProcessOrders`  
+- **Runtime:** Python 3.9  
+- **Role used:** `Lambda-S3-Processing-Role-Assignment3`  
+- The code from `LambdaFunction.py` was uploaded to the Lambda editor.  
+- The function filters out unnecessary rows and keeps only valid order data.
+
+This automation removes the need for manual data cleaning and ensures consistent results every time a file is uploaded.
+
+**Screenshot:**  
+📸 *Figure 3.* Lambda Function Created  
+![Screenshot3.png](./Screenshot/Screenshot3.png)
+
 
 ---
 
 ## 4. Configure the S3 Trigger ⚡
 
-Set up the S3 trigger to invoke your Lambda function automatically.
+**Approach:**  
+To make the data flow automatic, I set up an S3 trigger that runs the Lambda function whenever a new CSV file is uploaded to the `raw/` folder.
 
-1.  In the Lambda function overview, click **+ Add trigger**.
-2.  **Source**: Choose **S3**.
-3.  **Bucket**: Select your S3 bucket.
-4.  **Event types**: Choose **All object create events**.
-5.  **Prefix (Required)**: Enter `raw/`. This ensures the function only triggers for files in this folder.
-6.  **Suffix (Recommended)**: Enter `.csv`.
-7.  Check the acknowledgment box and click **Add**.
+**Explanation:**  
+- **Source:** S3  
+- **Bucket:** `itcs6190.assignment3.801426261.kkim43`  
+- **Event type:** All object create events  
+- **Prefix:** `raw/`  
+- **Suffix:** `.csv`  
+- The trigger ensures the Lambda function only runs when new CSV files appear in the `raw/` folder.  
+
+Once set up, uploading `Orders.csv` automatically starts the Lambda process, which saves the filtered result to `processed/`.
+
+**Screenshot:**  
+📸 *Figure 4.* Configured S3 Trigger  
+![Screenshot4.png](./Screenshot/Screenshot4.png)
+
 
 --- 
 **Start Processing of Raw Data**: Now upload the Orders.csv file into the `raw/` folder of the S3 Bucket. This will automatically trigger the Lambda function.
@@ -199,6 +214,7 @@ Once connected via SSH, run the following commands to install the necessary soft
 
 * **Stopping the Server**: To stop the Flask application, return to your SSH terminal and press `Ctrl + C`.
 * **Cost Management**: This setup uses free-tier services. To prevent unexpected charges, **stop or terminate your EC2 instance** from the AWS console when you are finished.
+
 
 
 
