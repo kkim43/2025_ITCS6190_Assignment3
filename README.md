@@ -1,5 +1,8 @@
 # ITCS-6190 Assignment 3: AWS Data Processing Pipeline
 
+**Name(ID):** Kiyoung Kim (801426261)  
+**E-Mail:** kkim43@charlotte.edu
+
 This project demonstrates an end-to-end serverless data processing pipeline on AWS. The process involves ingesting raw data into S3, using a Lambda function to process it, cataloging the data with AWS Glue, and finally, querying and visualizing the results on a dynamic webpage hosted on an EC2 instance.
 
 ## 1. Amazon S3 Bucket Structure 🪣
@@ -191,3 +194,4 @@ Once connected via SSH, run the following commands to install the necessary soft
 
 * **Stopping the Server**: To stop the Flask application, return to your SSH terminal and press `Ctrl + C`.
 * **Cost Management**: This setup uses free-tier services. To prevent unexpected charges, **stop or terminate your EC2 instance** from the AWS console when you are finished.
+
