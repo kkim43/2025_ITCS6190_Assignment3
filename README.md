@@ -27,37 +27,30 @@ This setup keeps files tidy and makes it easy for Lambda, Glue, and Athena to wo
 ![Screenshot1.png](./Screenshot/Screenshot1.png)
 
 ---
-
 ## 2. IAM Roles and Permissions 🔐
 
-Create the following IAM roles to grant AWS services the necessary permissions to interact with each other securely.
+**Approach:**  
+To let AWS services work together safely, I created three IAM roles — one for Lambda, one for Glue, and one for EC2.  
+Each role has the right permissions so that every service can only do what it needs.
 
-### Lambda Execution Role
+**Explanation:**  
+- **Lambda-S3-Processing-Role-Assignment3**  
+  - Used by: Lambda  
+  - Policies: `AWSLambdaBasicExecutionRole`, `AmazonS3FullAccess`  
 
-1.  Navigate to **IAM** -> **Roles** and click **Create role**.
-2.  **Trusted entity type**: Select **AWS service**.
-3.  **Use case**: Select **Lambda**.
-4.  **Add Permissions**: Attach the following managed policies:
-    * `AWSLambdaBasicExecutionRole`
-    * `AmazonS3FullAccess`
-5.  Give the role a descriptive name (e.g., `Lambda-S3-Processing-Role`) and create it.
+- **Glue-S3-Crawler-Role-Assignment3**  
+  - Used by: AWS Glue  
+  - Policies: `AmazonS3FullAccess`, `AWSGlueConsoleFullAccess`, `AWSGlueServiceRole`  
 
-### Glue Service Role
+- **EC2-Athena-Dashboard-Role-Assignment3**  
+  - Used by: EC2 instance  
+  - Policies: `AmazonS3FullAccess`, `AmazonAthenaFullAccess`  
 
-1.  Create another IAM role for **AWS service** with the use case **Glue**.
-2.  **Add Permissions**: Attach the following policies:
-    * `AmazonS3FullAccess`
-    * `AWSGlueConsoleFullAccess`
-    * `AWSGlueServiceRole`
-3.  Name the role (e.g., `Glue-S3-Crawler-Role`) and create it.
+These roles make sure that Lambda can access S3, Glue can crawl the processed data, and EC2 can query Athena securely.
 
-### EC2 Instance Profile
-
-1.  Create a final IAM role for **AWS service** with the use case **EC2**.
-2.  **Add Permissions**: Attach the following policies:
-    * `AmazonS3FullAccess`
-    * `AmazonAthenaFullAccess`
-3.  Name the role (e.g., `EC2-Athena-Dashboard-Role`) and create it.
+**Screenshot:**  
+📸 *Figure 2.* IAM Roles Created  
+![Screenshot2.png](./Screenshot/Screenshot2.png)
 
 ---
 
@@ -206,6 +199,7 @@ Once connected via SSH, run the following commands to install the necessary soft
 
 * **Stopping the Server**: To stop the Flask application, return to your SSH terminal and press `Ctrl + C`.
 * **Cost Management**: This setup uses free-tier services. To prevent unexpected charges, **stop or terminate your EC2 instance** from the AWS console when you are finished.
+
 
 
 
